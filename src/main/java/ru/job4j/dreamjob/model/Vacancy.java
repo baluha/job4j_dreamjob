@@ -1,9 +1,7 @@
 package ru.job4j.dreamjob.model;
 
-import javax.xml.crypto.Data;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 public class Vacancy {
@@ -60,8 +58,12 @@ public class Vacancy {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Vacancy vacancy = (Vacancy) o;
         return id == vacancy.id && Objects.equals(title, vacancy.title)
                 && Objects.equals(description, vacancy.description)
