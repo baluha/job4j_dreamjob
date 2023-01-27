@@ -1,6 +1,5 @@
 package ru.job4j.dreamjob.model;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -8,14 +7,11 @@ public class Vacancy {
 
     private int id;
 
-    private String title;
+    private final String title;
 
-    private String description;
+    private final String description;
 
-    private LocalDateTime creationDate;
-
-    private final SimpleDateFormat  format
-            = new SimpleDateFormat("'Дата создания вакансии: ' E yyyy.MM.dd");
+    private final LocalDateTime creationDate;
 
     public Vacancy(int id, String title, String description, LocalDateTime creationDate) {
         this.id = id;
@@ -36,25 +32,16 @@ public class Vacancy {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -65,9 +52,7 @@ public class Vacancy {
             return false;
         }
         Vacancy vacancy = (Vacancy) o;
-        return id == vacancy.id && Objects.equals(title, vacancy.title)
-                && Objects.equals(description, vacancy.description)
-                && Objects.equals(creationDate, vacancy.creationDate);
+        return id == vacancy.id;
     }
 
     @Override
