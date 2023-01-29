@@ -32,16 +32,13 @@ public class Vacancy {
         return title;
     }
 
-
     public String getDescription() {
         return description;
     }
 
-
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
-
 
     @Override
     public boolean equals(Object o) {
