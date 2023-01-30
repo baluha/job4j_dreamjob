@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Candidate {
+    private int id;
+    private String name;
+    private String description;
+    private LocalDateTime creationDate;
 
     public Candidate(int id, String name, String description, LocalDateTime creationDate) {
         this.id = id;
@@ -11,11 +15,6 @@ public class Candidate {
         this.description = description;
         this.creationDate = creationDate;
     }
-
-    private int id;
-    private String name;
-    private String description;
-    private LocalDateTime creationDate;
 
     public int getId() {
         return id;
