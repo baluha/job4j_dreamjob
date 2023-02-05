@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 @RequestMapping("/vacancies") /* Работать с кандидатами будем по URI /vacancies/** */
 public class VacancyController {
 
-    private final VacancyRepository vacancyRepository = MemoryVacancyRepository.getInstance();
+    private final VacancyRepository vacancyRepository =
+            MemoryVacancyRepository.getInstance();
 
     @GetMapping
     public String getAll(Model model) {
