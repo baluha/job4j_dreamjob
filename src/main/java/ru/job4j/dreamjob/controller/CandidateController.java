@@ -4,8 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.dreamjob.model.Candidate;
-import ru.job4j.dreamjob.repository.CandidateRepository;
-import ru.job4j.dreamjob.repository.MemoryCandidateRepository;
+import ru.job4j.dreamjob.service.SimpleCandidateService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -14,8 +13,9 @@ import java.time.LocalDateTime;
 @RequestMapping("/candidates")
 public class CandidateController {
 
-    private final CandidateRepository candidateRepository =
-            MemoryCandidateRepository.getInstance();
+    private final SimpleCandidateService candidateRepository =
+            SimpleCandidateService.getInstance(); /*Отвяжем контроллер от реализации MemoryCandidateRepository
+             и создадим прослойку в виде SimpleCandidateService*/
 
     @GetMapping
     public String getAll(Model model) {
