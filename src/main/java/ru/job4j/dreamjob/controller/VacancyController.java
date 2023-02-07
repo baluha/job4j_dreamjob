@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.dreamjob.model.Vacancy;
-import ru.job4j.dreamjob.service.SimpleVacancyService;
+import ru.job4j.dreamjob.service.VacancyService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -13,9 +13,12 @@ import java.time.LocalDateTime;
 @RequestMapping("/vacancies") /* Работать с кандидатами будем по URI /vacancies/** */
 public class VacancyController {
 
-    private final SimpleVacancyService vacancyRepository =
-            SimpleVacancyService.getInstance(); /*Отвяжем контроллер от реализации MemoryVacancyRepository
+    private final VacancyService vacancyRepository; /*Отвяжем контроллер от реализации MemoryVacancyRepository
              и создадим прослойку в виде SimpleVacancyService*/
+
+    public VacancyController(VacancyService vacancyRepository) {
+        this.vacancyRepository = vacancyRepository;
+    }
 
     @GetMapping
     public String getAll(Model model) {
