@@ -37,7 +37,8 @@ public class VacancyController {
     public String create(HttpServletRequest request) {
         String title = request.getParameter("title");
         String description = request.getParameter("description");
-        vacancyRepository.save(new Vacancy(0, title, description, LocalDateTime.now()));
+        boolean isVisible = Boolean.parseBoolean(request.getParameter("visible"));
+        vacancyRepository.save(new Vacancy(0, title, description, LocalDateTime.now(), isVisible));
         return "redirect:/vacancies";
     }
 
