@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.service.CandidatesService;
+import ru.job4j.dreamjob.service.CityService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -15,21 +16,26 @@ import java.time.LocalDateTime;
 @RequestMapping("/candidates")
 public class CandidateController {
 
+    private final CityService cityService;
     private final CandidatesService candidateRepository; /*Отвяжем контроллер от реализации MemoryCandidateRepository
              и создадим прослойку в виде SimpleCandidateService*/
 
-    public CandidateController(CandidatesService candidateRepository) {
+    public CandidateController(CandidatesService candidateRepository, CityService cityService) {
         this.candidateRepository = candidateRepository;
+        this.cityService = cityService;
     }
 
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("candidates", candidateRepository.findAll());
+        model.addAttribute("cities", cityService.findAll());
         return "candidates/list";
     }
 
     @GetMapping("/create")
-    public String getCreationPage() {
+    public String getCreationPage(Model model) {
+
+        model.addAttribute("cities", cityService.findAll());
         return "candidates/create";
     }
 
@@ -37,7 +43,8 @@ public class CandidateController {
     public String create(HttpServletRequest request) {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        candidateRepository.save(new Candidate(0, name, description, LocalDateTime.now()));
+        int city = Integer.parseInt(request.getParameter("cityId"));
+        candidateRepository.save(new Candidate(0, name, description, LocalDateTime.now(), city));
         return "redirect:/candidates";
     }
 
@@ -48,6 +55,8 @@ public class CandidateController {
             model.addAttribute("message", "Кандадат с указанным идентификатором не найден");
             return "errors/404";
         }
+
+        model.addAttribute("cities", cityService.findAll());
         model.addAttribute("candidate", candidateOptional.get());
         return "candidates/one";
     }

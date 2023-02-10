@@ -18,10 +18,10 @@ public class MemoryCandidateRepository implements CandidateRepository {
     private final AtomicInteger nextId = new AtomicInteger(1);
 
     public MemoryCandidateRepository() {
-        save(new Candidate(0, "Petr", "Some description", LocalDateTime.now()));
-        save(new Candidate(0, "Ivan", "Some description", LocalDateTime.now()));
-        save(new Candidate(0, "Sergey", "Some description", LocalDateTime.now()));
-        save(new Candidate(0, "Vasiliy", "Some description", LocalDateTime.now()));
+        save(new Candidate(0, "Petr", "Some description", LocalDateTime.now(), 1));
+        save(new Candidate(0, "Ivan", "Some description", LocalDateTime.now(), 2));
+        save(new Candidate(0, "Sergey", "Some description", LocalDateTime.now(), 3));
+        save(new Candidate(0, "Vasiliy", "Some description", LocalDateTime.now(), 4));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class MemoryCandidateRepository implements CandidateRepository {
     @Override
     public boolean update(Candidate candidate) {
         return candidates.computeIfPresent(candidate.getId(), (id, oldCandidate)
-                -> new Candidate(id, candidate.getName(), candidate.getDescription(), oldCandidate.getCreationDate())) != null;
+                -> new Candidate(id, candidate.getName(), candidate.getDescription(), oldCandidate.getCreationDate(), candidate.getCityId())) != null;
     }
 
     @Override

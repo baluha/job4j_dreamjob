@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.dreamjob.model.Vacancy;
+import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.VacancyService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,18 +19,23 @@ public class VacancyController {
     private final VacancyService vacancyRepository; /*Отвяжем контроллер от реализации MemoryVacancyRepository
              и создадим прослойку в виде SimpleVacancyService*/
 
-    public VacancyController(VacancyService vacancyRepository) {
+    private final CityService cityService;
+
+    public VacancyController(VacancyService vacancyRepository, CityService cityService) {
         this.vacancyRepository = vacancyRepository;
+        this.cityService = cityService;
     }
 
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("vacancies", vacancyRepository.findAll());
+        model.addAttribute("cities", cityService.findAll());
         return "vacancies/list";
     }
 
     @GetMapping("/create")
-    public String getCreationPage() {
+    public String getCreationPage(Model model) {
+        model.addAttribute("cities", cityService.findAll());
         return "vacancies/create";
     }
 
@@ -38,7 +44,8 @@ public class VacancyController {
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         boolean isVisible = Boolean.parseBoolean(request.getParameter("visible"));
-        vacancyRepository.save(new Vacancy(0, title, description, LocalDateTime.now(), isVisible));
+        int city = Integer.parseInt(request.getParameter("cityId"));
+        vacancyRepository.save(new Vacancy(0, title, description, LocalDateTime.now(), isVisible, city));
         return "redirect:/vacancies";
     }
 
@@ -49,6 +56,7 @@ public class VacancyController {
             model.addAttribute("message", "Вакансия с указанным идентификатором не найдена");
             return "errors/404";
         }
+        model.addAttribute("cities", cityService.findAll());
         model.addAttribute("vacancy", vacancyOptional.get());
         return "vacancies/one";
     }

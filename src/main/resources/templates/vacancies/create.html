@@ -40,6 +40,12 @@
                 <div class="form-check mb-3">
                     <input type="checkbox" neme="visible" class="form-check-input" id="visible">
                     <lable class="form-check-label" for="visible">Опубликовать</lable>
+                    <div class="mb-3">
+                        <label for="city"><b>Город</b></label>
+                        <select class="form-control" id="city" name="cityId">
+                            <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+                        </select>
+                    </div>
                 </div>
             <div class="mb-3 row">
                 <div class="col-6"></div>
