@@ -6,26 +6,26 @@ import ru.job4j.dreamjob.model.Vacancy;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @ThreadSafe
 @Repository
 public class MemoryVacancyRepository implements VacancyRepository {
 
-    private final Map<Integer, Vacancy> vacancies = new HashMap<>();
+    private final Map<Integer, Vacancy> vacancies = new ConcurrentHashMap<>();
 
     private final AtomicInteger nextId = new AtomicInteger(1);
 
     public MemoryVacancyRepository() {
-        save(new Vacancy(0, "Intern Java Developer", "Some description", LocalDateTime.now(), true, 1));
-        save(new Vacancy(0, "Junior Java Developer", "Some description", LocalDateTime.now(), true, 2));
-        save(new Vacancy(0, "Junior+ Java Developer", "Some description", LocalDateTime.now(), true, 3));
-        save(new Vacancy(0, "Middle Java Developer", "Some description", LocalDateTime.now(), true, 1));
-        save(new Vacancy(0, "Middle+ Java Developer", "Some description", LocalDateTime.now(), true, 2));
-        save(new Vacancy(0, "Senior Java Developer", "Some description", LocalDateTime.now(), true, 3));
+        save(new Vacancy(0, "Intern Java Developer", "Some description", LocalDateTime.now(), true, 1, 0));
+        save(new Vacancy(0, "Junior Java Developer", "Some description", LocalDateTime.now(), true, 2, 0));
+        save(new Vacancy(0, "Junior+ Java Developer", "Some description", LocalDateTime.now(), true, 3, 0));
+        save(new Vacancy(0, "Middle Java Developer", "Some description", LocalDateTime.now(), true, 1, 0));
+        save(new Vacancy(0, "Middle+ Java Developer", "Some description", LocalDateTime.now(), true, 2, 0));
+        save(new Vacancy(0, "Senior Java Developer", "Some description", LocalDateTime.now(), true, 3, 0));
     }
 
     @Override
@@ -44,7 +44,8 @@ public class MemoryVacancyRepository implements VacancyRepository {
     public boolean update(Vacancy vacancy) {
         return vacancies.computeIfPresent(vacancy.getId(), (id, oldVacancy)
                 -> new Vacancy(oldVacancy.getId(), vacancy.getTitle(),
-                vacancy.getDescription(), oldVacancy.getCreationDate(), vacancy.getVisible(), vacancy.getCityId())) != null;
+                vacancy.getDescription(), oldVacancy.getCreationDate(),
+                vacancy.getVisible(), vacancy.getCityId(), vacancy.getFileId())) != null;
     }
 
     @Override
