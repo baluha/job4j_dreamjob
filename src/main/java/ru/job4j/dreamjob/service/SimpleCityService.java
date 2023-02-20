@@ -11,14 +11,14 @@ import java.util.Collection;
 @Service
 public class SimpleCityService implements CityService {
 
-    private final CityRepository cityRepository;
+    private final CityRepository sql2oCityRepository;
 
-    public SimpleCityService(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
+    public SimpleCityService(CityRepository sql2oCityRepository) {
+        this.sql2oCityRepository = sql2oCityRepository;
     }
 
     @Override
     public Collection<City> findAll() {
-        return cityRepository.findAll();
+        return sql2oCityRepository.findAll();
     }
 }
