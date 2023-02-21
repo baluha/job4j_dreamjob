@@ -24,6 +24,7 @@ public class SimpleCandidateService implements CandidatesService {
 
     @Override
     public Candidate save(Candidate candidate, FileDto image) {
+        saveNewFile(candidate, image);
         return candidateRepository.save(candidate);
     }
 

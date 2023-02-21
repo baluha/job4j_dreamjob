@@ -1,11 +1,13 @@
 package ru.job4j.dreamjob.repository;
 
+import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 import ru.job4j.dreamjob.model.Vacancy;
 
 import java.util.Collection;
 import java.util.Optional;
 
+@Repository
 public class Sql2oVacancyRepository implements VacancyRepository {
     private final Sql2o sql2o;
 
@@ -17,7 +19,7 @@ public class Sql2oVacancyRepository implements VacancyRepository {
     public Vacancy save(Vacancy vacancy) {
         try (var connection = sql2o.open()) {
             var sql = """
-                      INSERT INTO vacancies(title, description, creation_date, visible, city_id, file_id)
+                      INSERT INTO vacancies (title, description, creation_date, visible, city_id, file_id)
                       VALUES (:title, :description, :creationDate, :visible, :cityId, :fileId)
                       """;
             var query = connection.createQuery(sql, true)
@@ -70,7 +72,8 @@ public class Sql2oVacancyRepository implements VacancyRepository {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("SELECT * FROM vacancies WHERE id = :id");
             query.addParameter("id", id);
-            var vacancy = query.setColumnMappings(Vacancy.COLUMN_MAPPING).executeAndFetchFirst(Vacancy.class);
+            var vacancy = query.setColumnMappings(Vacancy.COLUMN_MAPPING)
+                    .executeAndFetchFirst(Vacancy.class);
             return Optional.ofNullable(vacancy);
         }
     }
