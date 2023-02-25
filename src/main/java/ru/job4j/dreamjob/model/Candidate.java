@@ -23,6 +23,7 @@ public class Candidate {
     private int fileId;
 
     public Candidate() {
+
     }
 
     public Candidate(int id, String name, String description, LocalDateTime creationDate, int cityId, int fileId) {
