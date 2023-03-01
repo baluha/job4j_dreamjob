@@ -10,7 +10,6 @@ import ru.job4j.dreamjob.model.User;
 import java.util.List;
 import java.util.Properties;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -21,7 +20,7 @@ class Sql2oUserRepositoryTest {
     @BeforeAll
     public static void initRepositories() throws Exception {
         var properties = new Properties();
-        try (var inputStream = Sql2oVacancyRepositoryTest.class.getClassLoader()
+        try (var inputStream = Sql2oUserRepositoryTest.class.getClassLoader()
                 .getResourceAsStream("connection.properties")) {
             properties.load(inputStream);
         }
@@ -39,19 +38,19 @@ class Sql2oUserRepositoryTest {
     @AfterEach
     public void clearUsers() {
         var users = sql2oUserRepository.findAll();
-        for(var user: users) {
+        for (var user: users) {
             sql2oUserRepository.deleteById(user.getId());
         }
     }
 
     @Test
     public void whenTheSameEmail() {
-     User user = new User(0, "mail@index.ru", "name", "password");
-     User user1 = new User(0, "mail@index.ru", "anotherName", "password");
-     sql2oUserRepository.save(user);
-     assertThrows(Sql2oException.class, () -> {
-         sql2oUserRepository.save(user1);
-     });
+        User user = new User(0, "mail@index.ru", "name", "password");
+        User user1 = new User(0, "mail@index.ru", "anotherName", "password");
+        sql2oUserRepository.save(user);
+        assertThrows(Sql2oException.class, () -> {
+            sql2oUserRepository.save(user1);
+        });
     }
 
     @Test
