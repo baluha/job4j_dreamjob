@@ -21,19 +21,23 @@ public class Sql2oUserRepository implements UserRepository {
 
     @Override
     public Optional<User> save(User user) {
-        try (var connection = sql2o.open()) {
-            var sql = """
+        Optional<User> userValue = Optional.ofNullable(user);
+        if (userValue.isPresent()) {
+            try (var connection = sql2o.open()) {
+                var sql = """
                     INSERT INTO USERS (email, name, password)
                     VALUES (:email, :name, :password)
                     """;
-            var query = connection.createQuery(sql, true)
-                    .addParameter("email", user.getEmail())
-                    .addParameter("name", user.getName())
-                    .addParameter("password", user.getPassword());
-            int generatedKey = query.executeUpdate().getKey(Integer.class);
-            user.setId(generatedKey);
-            return Optional.ofNullable(user);
+                var query = connection.createQuery(sql, true)
+                        .addParameter("email", user.getEmail())
+                        .addParameter("name", user.getName())
+                        .addParameter("password", user.getPassword());
+                int generatedKey = query.executeUpdate().getKey(Integer.class);
+                user.setId(generatedKey);
+                return userValue;
+            }
         }
+        return userValue;
     }
 
     @Override
