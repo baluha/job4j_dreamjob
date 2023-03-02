@@ -98,6 +98,7 @@ public class CandidateController {
         return "redirect:/candidates";
     }
 
+    /*Добавим возможность получения информации текущей сессии*/
     public void getSessionInfo(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {

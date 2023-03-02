@@ -30,7 +30,7 @@ public class VacancyController {
 
     @GetMapping
     public String getAll(Model model, HttpSession session) {
-        getInfo(model, session);
+        getSessionInfo(model, session);
         model.addAttribute("vacancies", vacancyService.findAll());
         model.addAttribute("cities", cityService.findAll());
         return "vacancies/list";
@@ -38,14 +38,14 @@ public class VacancyController {
 
     @GetMapping("/create")
     public String getCreationPage(Model model, HttpSession session) {
-        getInfo(model, session);
+        getSessionInfo(model, session);
         model.addAttribute("cities", cityService.findAll());
         return "vacancies/create";
     }
 
     @PostMapping("/create")
     public String create(@ModelAttribute Vacancy vacancy, @RequestParam MultipartFile file, Model model, HttpSession session) {
-        getInfo(model, session);
+        getSessionInfo(model, session);
         try {
             vacancyService.save(vacancy, new FileDto(file.getOriginalFilename(), file.getBytes()));
             return "redirect:/vacancies";
@@ -57,7 +57,7 @@ public class VacancyController {
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable int id, HttpSession session) {
-        getInfo(model, session);
+        getSessionInfo(model, session);
         var vacancyOptional = vacancyService.findById(id);
         if (vacancyOptional.isEmpty()) {
             model.addAttribute("message", "Вакансия с указанным идентификатором не найдена");
@@ -70,7 +70,7 @@ public class VacancyController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute Vacancy vacancy, @RequestParam MultipartFile file, Model model, HttpSession session) {
-        getInfo(model, session);
+        getSessionInfo(model, session);
         try {
             var isUpdated = vacancyService.update(vacancy, new FileDto(file.getOriginalFilename(), file.getBytes()));
             if (!isUpdated) {
@@ -86,7 +86,7 @@ public class VacancyController {
 
     @GetMapping("/delete/{id}")
     public String delete(Model model, @PathVariable int id, HttpSession session) {
-        getInfo(model, session);
+        getSessionInfo(model, session);
         var isDeleted = vacancyService.deleteById(id);
         if (!isDeleted) {
             model.addAttribute("message", "Вакансия с указанным идентификатором не найдена");
@@ -94,8 +94,9 @@ public class VacancyController {
         }
         return "redirect:/vacancies";
     }
+    /*Добавим возможность получения информации текущей сессии*/
 
-    public void getInfo(Model model, HttpSession session) {
+    public void getSessionInfo(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             user = new User();

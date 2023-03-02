@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 @ThreadSafe
 @Controller
 public class IndexController {
+    /*Добавим возможность получения информации текущей сессии*/
     @GetMapping({"/", "/index"})
     public String getIndex(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
