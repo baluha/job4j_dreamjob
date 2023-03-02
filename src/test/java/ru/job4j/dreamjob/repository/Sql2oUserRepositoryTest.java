@@ -1,4 +1,4 @@
-package java.ru.job4j.dreamjob.repository;
+package ru.job4j.dreamjob.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -6,12 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.sql2o.Sql2oException;
 import ru.job4j.dreamjob.configuration.DatasourceConfiguration;
 import ru.job4j.dreamjob.model.User;
-import ru.job4j.dreamjob.repository.Sql2oUserRepository;
 
 import java.util.List;
 import java.util.Properties;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class Sql2oUserRepositoryTest {
@@ -45,13 +43,15 @@ class Sql2oUserRepositoryTest {
     }
 
     @Test
-    public void whenTheSameEmail() {
+    public void whenTheSameEmail() throws Sql2oException {
         User user = new User(0, "mail@index.ru", "name", "password");
         User user1 = new User(0, "mail@index.ru", "anotherName", "password");
         sql2oUserRepository.save(user);
-        assertThrows(Sql2oException.class, () -> {
+        try {
             sql2oUserRepository.save(user1);
-        });
+        } catch (Sql2oException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

@@ -1,4 +1,4 @@
-package java.ru.job4j.dreamjob.repository;
+package ru.job4j.dreamjob.repository;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -8,8 +8,6 @@ import org.sql2o.Sql2o;
 import ru.job4j.dreamjob.configuration.DatasourceConfiguration;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.model.File;
-import ru.job4j.dreamjob.repository.Sql2oCandidateRepository;
-import ru.job4j.dreamjob.repository.Sql2oFileRepository;
 
 import javax.sql.DataSource;
 import java.io.IOException;
