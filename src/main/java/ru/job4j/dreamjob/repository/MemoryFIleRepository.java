@@ -1,10 +1,8 @@
 package ru.job4j.dreamjob.repository;
 
 import net.jcip.annotations.ThreadSafe;
-import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.File;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;

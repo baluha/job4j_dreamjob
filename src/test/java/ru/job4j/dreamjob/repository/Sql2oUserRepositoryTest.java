@@ -1,4 +1,4 @@
-package java.repository.ru.job4j.dreamjob;
+package java.ru.job4j.dreamjob.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
