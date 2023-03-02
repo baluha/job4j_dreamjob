@@ -3,6 +3,7 @@ package ru.job4j.dreamjob.repository;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.model.Vacancy;
 
@@ -21,23 +22,21 @@ public class Sql2oUserRepository implements UserRepository {
 
     @Override
     public Optional<User> save(User user) {
-        Optional<User> userValue = Optional.ofNullable(user);
-        if (userValue.isPresent()) {
-            try (var connection = sql2o.open()) {
-                var sql = """
+        try (var connection = sql2o.open()) {
+            var sql = """
                     INSERT INTO USERS (email, name, password)
                     VALUES (:email, :name, :password)
                     """;
-                var query = connection.createQuery(sql, true)
-                        .addParameter("email", user.getEmail())
-                        .addParameter("name", user.getName())
-                        .addParameter("password", user.getPassword());
-                int generatedKey = query.executeUpdate().getKey(Integer.class);
-                user.setId(generatedKey);
-                return userValue;
-            }
+            var query = connection.createQuery(sql, true)
+                    .addParameter("email", user.getEmail())
+                    .addParameter("name", user.getName())
+                    .addParameter("password", user.getPassword());
+            int generatedKey = query.executeUpdate().getKey(Integer.class);
+            user.setId(generatedKey);
+            return Optional.of(user);
+        } catch (Sql2oException e) {
+            return Optional.empty();
         }
-        return userValue;
     }
 
     @Override
