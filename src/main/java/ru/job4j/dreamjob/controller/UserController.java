@@ -36,6 +36,7 @@ public class UserController {
         model.addAttribute("user", user);
         return "/users/register";
     }
+/*Метод возвращает страницу login*/
 
     @GetMapping("/login")
     public String getLoginPage() {
@@ -60,6 +61,7 @@ public class UserController {
         return "index";
     }
 
+    /*Метод, проверяющий есть ли такой пользователь в системе*/
     @PostMapping("/login")
     public String loginUser(@ModelAttribute User user, Model model, HttpServletRequest request) {
         var userOptional = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
