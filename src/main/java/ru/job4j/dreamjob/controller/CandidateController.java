@@ -36,7 +36,6 @@ public class CandidateController {
 
     @GetMapping("/create")
     public String getCreationPage(Model model) {
-
         model.addAttribute("cities", cityService.findAll());
         return "candidates/create";
     }
